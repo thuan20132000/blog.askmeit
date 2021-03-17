@@ -32,7 +32,7 @@ class SearchBase:
         url = f'https://www.oxfordlearnersdictionaries.com/definition/english/{vocabularySearch}'
 
         headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36"}
+            "User-Agent": "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36"}
     
 
         source = requests.get(url, headers=headers, timeout=7,proxies=proxy)

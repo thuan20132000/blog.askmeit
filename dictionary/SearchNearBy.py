@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import json
-import slugify
+from django.utils.text import slugify
 
 
 class SearchNearBy:
