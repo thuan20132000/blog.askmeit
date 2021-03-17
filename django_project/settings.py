@@ -100,7 +100,7 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vieclam24h_v1',
+        'NAME': 'blog',
         'USER': 'truongthuan',
         'PASSWORD': 'Thuan123',
         'HOST': '127.0.0.1',
