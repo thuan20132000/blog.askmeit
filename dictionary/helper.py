@@ -8,7 +8,7 @@ import random
 def save_proxies(ip_list, port_list, number):
     # proxy_list = list()
 
-    proxy_data = open('dictionary/proxy_data.txt', 'w')
+    proxy_data = open('/Users/truongthuan/Develop/python/blog/dictionary/proxy_data.txt', 'w')
     for x in range(number):
         proxy = f"{ip_list[x]}:{port_list[x]}"
         # proxy_list.append(proxy)
@@ -71,7 +71,7 @@ def downloadFileFromUrl(proxy, file_url, file_name):
             response = requests.get(
                 file_url, headers=headers, timeout=17, proxies=proxy_data)
 
-            f = open(f'dictionary/audio/{file_name}', 'wb')
+            f = open(f'/Users/truongthuan/Develop/python/blog/dictionary/audio/{file_name}', 'wb')
             f.write(response.content)
             return
 

@@ -149,3 +149,7 @@ templates/tech-blog
 
 media/upload
 vieclam24h/migrations
+dictionary/migrations
+audio/
+dictionary/schedule_cron.py
+dictionary/dateInfo.txt

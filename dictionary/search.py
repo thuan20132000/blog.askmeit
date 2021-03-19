@@ -7,6 +7,7 @@ from string import ascii_letters, digits
 import re
 import json
 import time
+import datetime
 from django.utils.text import slugify
 import pprint
 
@@ -16,6 +17,7 @@ import random
 import threading
 
 from dictionary.models import Vocabulary
+
 
 class myThread (threading.Thread):
     def __init__(self, threadID, name, func):
@@ -30,6 +32,10 @@ class myThread (threading.Thread):
 
 
 def searchVocabulary(vocabulary, proxy):
+
+    with open('/Users/truongthuan/Develop/python/blog/dictionary/dateInfo.txt', 'a') as outFile:
+        outFile.write('\n' + str(datetime.datetime.now()))
+
     word_slug = slugify(vocabulary)
     # proxy_data = "145.40.78.181:3128"
     proxy_parse = {
@@ -43,8 +49,6 @@ def searchVocabulary(vocabulary, proxy):
 
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(data_search)
-
-
 
     word = data_search.get('word_cover')
     name = word.get('name')
@@ -83,7 +87,6 @@ def searchVocabulary(vocabulary, proxy):
         vocabulary.certification_field = 'ielts'
         vocabulary.save()
         print(f"Saved <{vocabulary}> successfully.")
-        
 
     # print('sound_us: ',sound_us)
     # print('sound_uk: ',sound_uk)
@@ -103,7 +106,7 @@ def check_search(word):
                 count = 1
                 continue
 
-            proxy = helper.choose_random("dictionary/proxy_data.txt")
+            proxy = helper.choose_random("/Users/truongthuan/Develop/python/blog/dictionary/proxy_data.txt")
             print(f"Searching {word} turn {count} with proxy: {proxy} ")
 
             searchVocabulary(word, proxy)
@@ -112,7 +115,7 @@ def check_search(word):
         except Exception as e:
             print(f"Search error {count} : {e}")
             count += 1
-            if count >=15:
+            if count >= 15:
                 break
             continue
 
@@ -132,11 +135,9 @@ def read_vocabulary_to_search(file):
         count += 1
         print(f"=====>Searching for {line.strip()} ")
         check_search(line.strip())
-    end  = time.time()
+    end = time.time()
 
     print(f"Search {count} vocabulary in {end-start} ")
 
-    
 
-
-read_vocabulary_to_search('dictionary/vocabulary_data/test_vocabulary.txt')
+read_vocabulary_to_search('/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
