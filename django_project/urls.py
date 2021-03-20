@@ -36,5 +36,7 @@ urlpatterns = [
     ),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
+    path('dictionary/',include('dictionary.urls')),
+
 
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

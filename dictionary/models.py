@@ -48,11 +48,12 @@ class Vocabulary(models.Model):
         ('common','COMMON'),
     )
 
-    name = models.CharField(max_length=100)
-    phon_us = models.CharField(max_length=100)
-    phon_uk = models.CharField(max_length=100)
-    sound_us = models.CharField(max_length=255)
-    sound_uk = models.CharField(max_length=255)
+    name = models.CharField(max_length=100,null=True)
+    word_type = models.CharField(max_length=20,null=True)
+    phon_us = models.CharField(max_length=100,null=True)
+    phon_uk = models.CharField(max_length=100,null=True)
+    sound_us = models.CharField(max_length=255,null=True)
+    sound_uk = models.CharField(max_length=255,null=True)
     definitions = models.JSONField(null=True, blank=True)
 
     certification_field =  models.CharField(choices=CERTIFICATION_CHOICES,max_length=10,default="common")

@@ -171,6 +171,6 @@ class SearchNearBy:
         # print('-->get data: {}'.format(data_response))
         # return data_response
         return {
-            "word_cover ": self.word_cover,
+            "word_cover": self.word_cover,
             "word_explaning": self.word_explains
         }

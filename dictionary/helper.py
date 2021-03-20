@@ -3,12 +3,12 @@ from bs4 import BeautifulSoup
 
 # from random import choice
 import random
-
+import os
 
 def save_proxies(ip_list, port_list, number):
     # proxy_list = list()
 
-    proxy_data = open('/Users/truongthuan/Develop/python/blog/dictionary/proxy_data.txt', 'w')
+    proxy_data = open(os.path.abspath(os.getcwd())+'/dictionary/proxy_data.txt', 'w')
     for x in range(number):
         proxy = f"{ip_list[x]}:{port_list[x]}"
         # proxy_list.append(proxy)
@@ -52,11 +52,11 @@ def downloadFileFromUrl(proxy, file_url, file_name):
             headers = {
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36"}
 
-            if count > 6:
+            if count > 6 or proxy is None:
                 # generate_proxy()
                 # print('Generate new proxy')
                 # count = 1
-                proxy = choose_random("dictionary/proxy_data.txt")
+                proxy = choose_random(os.path.abspath(os.getcwd())+"/dictionary/proxy_data.txt")
                 count += 1
                 if count > 10:
                     generate_proxy()
@@ -71,7 +71,7 @@ def downloadFileFromUrl(proxy, file_url, file_name):
             response = requests.get(
                 file_url, headers=headers, timeout=17, proxies=proxy_data)
 
-            f = open(f'/Users/truongthuan/Develop/python/blog/dictionary/audio/{file_name}', 'wb')
+            f = open(f'{os.path.abspath(os.getcwd())}/dictionary/audio/{file_name}', 'wb')
             f.write(response.content)
             return
 

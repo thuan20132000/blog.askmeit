@@ -8,10 +8,25 @@ import requests
 # from models import Word_Definition
 from dictionary.SearchNearBy import SearchNearBy
 # from VocabularyController import VocabularyController
-
+from dictionary.models import Vocabulary
 # from dictionary.helper import dowloadFileFromUrl
 
 from random import choice
+
+import threading
+from dictionary import helper
+import os
+
+class myThread (threading.Thread):
+    def __init__(self, threadID, name, func):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.func = func
+
+    def run(self):
+        print("Starting " + self.name)
+        self.func
 
 
 class SearchBase:
@@ -22,7 +37,7 @@ class SearchBase:
     soup = ''
     searchResult = False
 
-    def __init__(self, vocabularySearch,proxy):
+    def __init__(self, vocabularySearch, proxy):
         self.word_cover = {}
         self.word_explains = []
         self.vocabularySearch = vocabularySearch
@@ -33,16 +48,13 @@ class SearchBase:
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36"}
-    
 
-        source = requests.get(url, headers=headers, timeout=7,proxies=proxy)
+        source = requests.get(url, headers=headers, timeout=7, proxies=proxy)
         # print('user agent: ', source.headers)
 
         self.soup = BeautifulSoup(source.content, 'html5lib')
 
-    
-
-    def searchVocabulary(self,):
+    def searchBaseVocabulary(self,):
         # vocabulary = self.vocabularySearch
         # print('--->vocabulary search : ')
 
@@ -160,7 +172,7 @@ class SearchBase:
         }
 
     def get_word_explains(self, vocabulary):
-    
+
         # create list word explains
         vocabulary_nospace = vocabulary.replace('-', '')
 
@@ -202,6 +214,39 @@ class SearchBase:
             # Add expolain after get full of information
             self.word_explains.append(explain)
 
+    def save_vocabulary(self, name, word_type, phon_us, phon_uk, sound_us, sound_uk, definitions_examples):
+        if sound_us and sound_uk:
+            # print('sound_us: ', sound_us)
+            file_name_us = f'{name}+us.mp3'
+            file_name_uk = f'{name}+uk.mp3'
+            # helper.downloadFileFromUrl(proxy, sound_us, file_name)
+            thread1 = myThread(
+                1, f"Thread-{file_name_us}", helper.downloadFileFromUrl(None, sound_us, file_name_us))
+
+            # print('sound_uk: ', sound_uk)
+            # helper.downloadFileFromUrl(proxy, sound_uk, file_name)
+            thread2 = myThread(
+                2, f"Thread-{file_name_uk}", helper.downloadFileFromUrl(None, sound_us, file_name_uk))
+
+            thread1.start()
+            thread2.start()
+            thread1.join()
+            thread2.join()
+            print("Exiting Main Thread")
+
+            vocabulary = Vocabulary()
+            vocabulary.name = name
+            vocabulary.word_type = word_type
+            vocabulary.phon_us = phon_us
+            vocabulary.phon_uk = phon_uk
+            vocabulary.sound_us = file_name_uk
+            vocabulary.sound_uk = file_name_us
+            vocabulary.definitions = definitions_examples
+            vocabulary.certification_field = ''
+            vocabulary.save()
+
+            print(f"Saved <{vocabulary}> successfully.")
+
     def get_nearby_word_links(self,):
         # accordion ui-grad
         listLink = []
@@ -221,7 +266,28 @@ class SearchBase:
                 a = SearchNearBy(url, wordToFind)
                 a.searchVocabulary()
                 dataSearch = a.get_data_search()
-                print('Nearby data: ', dataSearch)
+
+                nearby_word_cover = dataSearch.get('word_cover')
+                nearby_word_definitions = dataSearch.get('word_explaning')
+                nearby_word_type = nearby_word_cover.get('type')
+                if nearby_word_type == self.word_cover.get('type'):
+                    continue
+
+                print('Nearby word cover: ', dataSearch)
+                print('Nearby word type: ', dataSearch.get(
+                    'word_cover').get('type'))
+                print('=========')
+
+                print(f'word_cover_type: ', self.word_cover.get('type'))
+                name = nearby_word_cover.get('name')
+                word_type = nearby_word_cover.get('type')
+                phon_us = nearby_word_cover.get('pronunciation_us')
+                phon_uk = nearby_word_cover.get('pronunciation_uk')
+                sound_us = nearby_word_cover.get('sound_us')
+                sound_uk = nearby_word_cover.get('sound_uk')
+
+                self.save_vocabulary(name, word_type, phon_us, phon_uk, sound_us, sound_uk, nearby_word_definitions)
+
                 # wordtype = dataSearch['word_definition']['type']
                 # wordname = dataSearch['word_definition']['name']
 
@@ -233,8 +299,9 @@ class SearchBase:
                 # newword = v.save_word_definition()
                 # v.save_word_cover_json(json.dumps(dataSearch), newword.id)
 
-            except:
+            except Exception as e:
                 print('-------->error search nearby!!{}'.format(link.a.get('href')))
+                print('error: ',e)
 
     # def get_data(self):
     #     data_response = {}

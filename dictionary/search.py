@@ -17,7 +17,7 @@ import random
 import threading
 
 from dictionary.models import Vocabulary
-
+import os
 
 class myThread (threading.Thread):
     def __init__(self, threadID, name, func):
@@ -33,7 +33,7 @@ class myThread (threading.Thread):
 
 def searchVocabulary(vocabulary, proxy):
 
-    with open('/Users/truongthuan/Develop/python/blog/dictionary/dateInfo.txt', 'a') as outFile:
+    with open('dateInfo.txt', 'a') as outFile:
         outFile.write('\n' + str(datetime.datetime.now()))
 
     word_slug = slugify(vocabulary)
@@ -43,20 +43,24 @@ def searchVocabulary(vocabulary, proxy):
         "https": f"https://{proxy}"
     }
     search = SearchBase(word_slug, proxy_parse)
-    search.searchVocabulary()
+    search.searchBaseVocabulary()
     # search.get_word_explains()
     data_search = search.get_search_data()
 
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(data_search)
 
+
+
     word = data_search.get('word_cover')
     name = word.get('name')
+    word_type = word.get('type')
     phon_us = word.get('pronunciation_us')
     phon_uk = word.get('pronunciation_uk')
     sound_us = word.get('sound_us')
     sound_uk = word.get('sound_uk')
     definitions_examples = data_search.get('word_explaning')
+
 
     if sound_us and sound_uk:
         # print('sound_us: ', sound_us)
@@ -77,15 +81,19 @@ def searchVocabulary(vocabulary, proxy):
         thread2.join()
         print("Exiting Main Thread")
 
+
         vocabulary = Vocabulary()
         vocabulary.name = name
+        vocabulary.word_type = word_type
         vocabulary.phon_us = phon_us
         vocabulary.phon_uk = phon_uk
         vocabulary.sound_us = file_name_uk
         vocabulary.sound_uk = file_name_us
         vocabulary.definitions = definitions_examples
-        vocabulary.certification_field = 'ielts'
+        vocabulary.certification_field = ''
         vocabulary.save()
+
+        search.get_nearby_word_links()
         print(f"Saved <{vocabulary}> successfully.")
 
     # print('sound_us: ',sound_us)
@@ -106,10 +114,11 @@ def check_search(word):
                 count = 1
                 continue
 
-            proxy = helper.choose_random("/Users/truongthuan/Develop/python/blog/dictionary/proxy_data.txt")
+            proxy = helper.choose_random(os.path.abspath(os.getcwd())+"/dictionary/proxy_data.txt")
             print(f"Searching {word} turn {count} with proxy: {proxy} ")
 
             searchVocabulary(word, proxy)
+            
             return False
 
         except Exception as e:
@@ -140,4 +149,6 @@ def read_vocabulary_to_search(file):
     print(f"Search {count} vocabulary in {end-start} ")
 
 
-read_vocabulary_to_search('/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
+# read_vocabulary_to_search('/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
+
+check_search('need')
