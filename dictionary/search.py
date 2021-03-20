@@ -18,6 +18,8 @@ import threading
 
 from dictionary.models import Vocabulary
 import os
+from django.core.mail import send_mail
+
 
 class myThread (threading.Thread):
     def __init__(self, threadID, name, func):
@@ -50,8 +52,6 @@ def searchVocabulary(vocabulary, proxy):
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(data_search)
 
-
-
     word = data_search.get('word_cover')
     name = word.get('name')
     word_type = word.get('type')
@@ -61,11 +61,10 @@ def searchVocabulary(vocabulary, proxy):
     sound_uk = word.get('sound_uk')
     definitions_examples = data_search.get('word_explaning')
 
-
     if sound_us and sound_uk:
         # print('sound_us: ', sound_us)
-        file_name_us = f'{name}+us.mp3'
-        file_name_uk = f'{name}+uk.mp3'
+        file_name_us = f'{name}+{word_type}+us.mp3'
+        file_name_uk = f'{name}+{word_type}+uk.mp3'
         # helper.downloadFileFromUrl(proxy, sound_us, file_name)
         thread1 = myThread(
             1, f"Thread-{file_name_us}", helper.downloadFileFromUrl(proxy, sound_us, file_name_us))
@@ -80,7 +79,6 @@ def searchVocabulary(vocabulary, proxy):
         thread1.join()
         thread2.join()
         print("Exiting Main Thread")
-
 
         vocabulary = Vocabulary()
         vocabulary.name = name
@@ -103,6 +101,7 @@ def searchVocabulary(vocabulary, proxy):
 def check_search(word):
 
     count = 1
+    send_mail('search vocabulary', 'search start', 'thuan20202000@gmail.com', ['thuan20132000@gmail.com'],fail_silently=False)
 
     while True:
         try:
@@ -114,11 +113,12 @@ def check_search(word):
                 count = 1
                 continue
 
-            proxy = helper.choose_random(os.path.abspath(os.getcwd())+"/dictionary/proxy_data.txt")
+            proxy = helper.choose_random(os.path.abspath(
+                os.getcwd())+"/dictionary/proxy_data.txt")
             print(f"Searching {word} turn {count} with proxy: {proxy} ")
 
             searchVocabulary(word, proxy)
-            
+
             return False
 
         except Exception as e:
@@ -127,9 +127,6 @@ def check_search(word):
             if count >= 15:
                 break
             continue
-
-
-# check_search('irregular')
 
 
 def read_vocabulary_to_search(file):
@@ -146,9 +143,11 @@ def read_vocabulary_to_search(file):
         check_search(line.strip())
     end = time.time()
 
-    print(f"Search {count} vocabulary in {end-start} ")
+    message = f"Search {count} vocabulary in {end-start} "
+    send_mail('search vocabulary', message, 'thuan20202000@gmail.com', ['thuan20132000@gmail.com'],fail_silently=False)
 
 
-# read_vocabulary_to_search('/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
 
-check_search('need')
+read_vocabulary_to_search('/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
+
+# check_search('need')
