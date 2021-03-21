@@ -9,7 +9,7 @@ from dictionary.models import Vocabulary
 class VocabularyBaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vocabulary
-        fields  = ['id','name','phon_us','phon_uk','sound_us','sound_uk']
+        fields  = ['id','name','phon_us','phon_uk','sound_us','sound_uk','word_type']
 
 
 

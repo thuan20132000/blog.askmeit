@@ -49,7 +49,7 @@ class Vocabulary(models.Model):
     )
 
     name = models.CharField(max_length=100,null=True)
-    word_type = models.CharField(max_length=20,null=True)
+    word_type = models.CharField(max_length=100,null=True)
     phon_us = models.CharField(max_length=100,null=True)
     phon_uk = models.CharField(max_length=100,null=True)
     sound_us = models.CharField(max_length=255,null=True)
@@ -71,5 +71,5 @@ class Vocabulary(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
+    def __str__(self,):
+        return f"Name: {self.name}"
