@@ -1,6 +1,5 @@
 from dictionary.searchbase import SearchBase
 import requests
-
 from bs4 import BeautifulSoup
 from random import choice
 from string import ascii_letters, digits
@@ -19,6 +18,8 @@ import threading
 from dictionary.models import Vocabulary
 import os
 from django.core.mail import send_mail
+import logging
+import inspect
 
 
 class myThread (threading.Thread):
@@ -35,9 +36,9 @@ class myThread (threading.Thread):
 
 def searchVocabulary(vocabulary, proxy):
 
-    with open('dateInfo.txt', 'a') as outFile:
-        outFile.write('\n' + str(datetime.datetime.now()))
+   
 
+    
     word_slug = slugify(vocabulary)
     # proxy_data = "145.40.78.181:3128"
     proxy_parse = {
@@ -91,8 +92,11 @@ def searchVocabulary(vocabulary, proxy):
         vocabulary.certification_field = ''
         vocabulary.save()
 
+        message = f"Saved <{vocabulary}> successfully."
+
+        helper.log_message(message)
+
         search.get_nearby_word_links()
-        print(f"Saved <{vocabulary}> successfully.")
 
     # print('sound_us: ',sound_us)
     # print('sound_uk: ',sound_uk)
@@ -101,7 +105,8 @@ def searchVocabulary(vocabulary, proxy):
 def check_search(word):
 
     count = 1
-    send_mail('search vocabulary', 'search start', 'thuan20202000@gmail.com', ['thuan20132000@gmail.com'],fail_silently=False)
+    # send_mail('search vocabulary', 'search start', 'thuan20202000@gmail.com',
+    #           ['thuan20132000@gmail.com'], fail_silently=False)
 
     while True:
         try:
@@ -113,41 +118,50 @@ def check_search(word):
                 count = 1
                 continue
 
-            proxy = helper.choose_random(os.path.abspath(
-                os.getcwd())+"/dictionary/proxy_data.txt")
-            print(f"Searching {word} turn {count} with proxy: {proxy} ")
+            proxy = helper.choose_random(
+                "/Users/truongthuan/Develop/python/blog/dictionary/proxy_data.txt")
 
-            searchVocabulary(word, proxy)
-
-            return False
+            if proxy:
+                print(f"Searching {word} turn {count} with proxy: {proxy} ")
+                searchVocabulary(word, proxy)
+                return False
+            else:
+                return False
 
         except Exception as e:
             print(f"Search error {count} : {e}")
             count += 1
-            if count >= 15:
-                break
             continue
 
 
 def read_vocabulary_to_search(file):
+    try:
+        start = time.time()
+        # Using readlines()
+        file1 = open(file, 'r')
+        Lines = file1.readlines()
+        count = 0
+        # Strips the newline character
+        for line in Lines:
+            count += 1
+            print(f"=====>Searching for {line.strip()} ")
+            message = f"Searching vocabulary <<{line.strip()}>>"
+            helper.log_message(message)
 
-    start = time.time()
-    # Using readlines()
-    file1 = open(file, 'r')
-    Lines = file1.readlines()
-    count = 0
-    # Strips the newline character
-    for line in Lines:
-        count += 1
-        print(f"=====>Searching for {line.strip()} ")
-        check_search(line.strip())
-    end = time.time()
+            check_search(line.strip())
+        end = time.time()
 
-    message = f"Search {count} vocabulary in {end-start} "
-    send_mail('search vocabulary', message, 'thuan20202000@gmail.com', ['thuan20132000@gmail.com'],fail_silently=False)
+        message = f"Search {count} vocabulary in {end-start} "
+        send_mail('search vocabulary', message, 'thuan20202000@gmail.com',
+                  ['thuan20132000@gmail.com'], fail_silently=False)
+    except Exception as e:
+        func = inspect.currentframe().f_back.f_code
+
+        error = f"error: {e} at "+func.co_name + " - " + func.co_filename
+        helper.log_message(error)
 
 
-
-read_vocabulary_to_search('/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
+read_vocabulary_to_search(
+    '/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
 
 # check_search('need')

@@ -2,5 +2,5 @@ import datetime
 import os
 
  
-with open(os.path.abspath(os.getcwd())+'dictionary/dateInfo.txt','a') as outFile:
+with open('/Users/truongthuan/Develop/python/dictionary/dateInfo.txt','a') as outFile:
     outFile.write('\n' + str(datetime.datetime.now()))

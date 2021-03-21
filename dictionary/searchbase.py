@@ -273,12 +273,12 @@ class SearchBase:
                 if nearby_word_type == self.word_cover.get('type'):
                     continue
 
-                print('Nearby word cover: ', dataSearch)
-                print('Nearby word type: ', dataSearch.get(
-                    'word_cover').get('type'))
-                print('=========')
+                # print('Nearby word cover: ', dataSearch)
+                # print('Nearby word type: ', dataSearch.get(
+                #     'word_cover').get('type'))
+                # print('=========')
 
-                print(f'word_cover_type: ', self.word_cover.get('type'))
+                # print(f'word_cover_type: ', self.word_cover.get('type'))
                 name = nearby_word_cover.get('name')
                 word_type = nearby_word_cover.get('type')
                 phon_us = nearby_word_cover.get('pronunciation_us')
@@ -288,6 +288,8 @@ class SearchBase:
 
                 self.save_vocabulary(name, word_type, phon_us, phon_uk, sound_us, sound_uk, nearby_word_definitions)
 
+                message = f"save vocabulary <<{name}>> type:<<{word_type}>> successfully"
+                helper.log_message(message)
                 # wordtype = dataSearch['word_definition']['type']
                 # wordname = dataSearch['word_definition']['name']
 
@@ -302,6 +304,8 @@ class SearchBase:
             except Exception as e:
                 print('-------->error search nearby!!{}'.format(link.a.get('href')))
                 print('error: ',e)
+                message = f"error search nearby: {e}"
+                helper.log_message(message)
 
     # def get_data(self):
     #     data_response = {}

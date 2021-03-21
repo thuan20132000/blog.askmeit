@@ -3,12 +3,17 @@ from bs4 import BeautifulSoup
 
 # from random import choice
 import random
+import datetime
 import os
+import inspect
+import logging
+
 
 def save_proxies(ip_list, port_list, number):
     # proxy_list = list()
 
-    proxy_data = open(os.path.abspath(os.getcwd())+'/dictionary/proxy_data.txt', 'w')
+    proxy_data = open(
+        '/Users/truongthuan/Develop/python/blog/dictionary/proxy_data.txt', 'w')
     for x in range(number):
         proxy = f"{ip_list[x]}:{port_list[x]}"
         # proxy_list.append(proxy)
@@ -34,12 +39,18 @@ def generate_proxy():
 
 def choose_random(file_name):
     """Choose a line at random from the text file"""
-    with open(file_name, 'r') as file:
-        lines = file.readlines()
-        random_line = random.choice(lines)
-        print(random_line)
 
-    return random_line
+    try:
+        with open(file_name, 'r') as file:
+            lines = file.readlines()
+            random_line = random.choice(lines)
+            print(random_line)
+
+        return random_line
+    except Exception as e:
+
+        log_message(f"Not found file: {file_name} ")
+        return False
 
 
 def downloadFileFromUrl(proxy, file_url, file_name):
@@ -56,7 +67,8 @@ def downloadFileFromUrl(proxy, file_url, file_name):
                 # generate_proxy()
                 # print('Generate new proxy')
                 # count = 1
-                proxy = choose_random(os.path.abspath(os.getcwd())+"/dictionary/proxy_data.txt")
+                proxy = choose_random(
+                    "/Users/truongthuan/Develop/python/blog/dictionary/proxy_data.txt")
                 count += 1
                 if count > 10:
                     generate_proxy()
@@ -71,12 +83,32 @@ def downloadFileFromUrl(proxy, file_url, file_name):
             response = requests.get(
                 file_url, headers=headers, timeout=17, proxies=proxy_data)
 
-            f = open(f'{os.path.abspath(os.getcwd())}/dictionary/audio/{file_name}', 'wb')
+            f = open(
+                f'/Users/truongthuan/Develop/python/blog/dictionary/audio/{file_name}', 'wb')
             f.write(response.content)
-            return
+            message = f"saved file {file_name}"
+            log_message(message)
+            return False
 
         except Exception as e:
             print("Error at download file ", file_name)
             print("error message: ", e)
+            error = f"error: {e}"
+            log_message(error)
+            if count >= 15:
+                return False
+
             count += 1
             continue
+
+
+def log_message(message):
+    log = open(
+        "/Users/truongthuan/Develop/python/blog/dictionary/logs/logs.txt", 'a')
+    # message_parse =
+    func = inspect.currentframe().f_back.f_code
+    co_name = func.co_name
+    f_name = func.co_filename
+    co_line = func.co_firstlineno
+
+    log.write('\n'+str(datetime.datetime.now())+' :  '+message+f' at {co_line} - {co_name} - {f_name}')
