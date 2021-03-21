@@ -37,8 +37,7 @@ class myThread (threading.Thread):
 def searchVocabulary(vocabulary, proxy):
 
    
-
-    
+    print('cvocaaaa: ',type(vocabulary))
     word_slug = slugify(vocabulary)
     # proxy_data = "145.40.78.181:3128"
     proxy_parse = {
@@ -91,7 +90,7 @@ def searchVocabulary(vocabulary, proxy):
         vocabulary.definitions = definitions_examples
         vocabulary.certification_field = ''
         vocabulary.save()
-
+        print(f"Saved <{vocabulary}> successfully.")
         message = f"Saved <{vocabulary}> successfully."
 
         helper.log_message(message)
@@ -127,9 +126,11 @@ def check_search(word):
                 return False
             else:
                 return False
-
+                
         except Exception as e:
             print(f"Search error {count} : {e}")
+            message = f"error: {e}"
+            helper.log_message(e)
             count += 1
             continue
 
@@ -161,7 +162,7 @@ def read_vocabulary_to_search(file):
         helper.log_message(error)
 
 
-read_vocabulary_to_search(
-    '/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
+# read_vocabulary_to_search(
+#     '/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
 
-# check_search('need')
+check_search('than')

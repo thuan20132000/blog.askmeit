@@ -103,12 +103,11 @@ def downloadFileFromUrl(proxy, file_url, file_name):
 
 
 def log_message(message):
-    log = open(
-        "/Users/truongthuan/Develop/python/blog/dictionary/logs/logs.txt", 'a')
+    log = open("/Users/truongthuan/Develop/python/blog/dictionary/logs/logs.txt", 'a')
     # message_parse =
     func = inspect.currentframe().f_back.f_code
     co_name = func.co_name
     f_name = func.co_filename
     co_line = func.co_firstlineno
 
-    log.write('\n'+str(datetime.datetime.now())+' :  '+message+f' at {co_line} - {co_name} - {f_name}')
+    log.write(f'\n {str(datetime.datetime.now())} : {message} at {co_line} - {co_name} - {f_name}')

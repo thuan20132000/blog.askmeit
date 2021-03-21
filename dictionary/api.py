@@ -5,6 +5,8 @@ from dictionary.serializers import VocabularySerializer, VocabularyBaseSerialize
 
 from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
 
+from dictionary.helper import log_message
+
 
 @api_view(['GET'])
 def get_search_vocabulary(request):
@@ -22,7 +24,7 @@ def get_search_vocabulary(request):
         # print('data: ',vocabulary)
 
         vocabulary_list = Vocabulary.objects.filter(name__startswith=query).values(
-            'name', 'id', 'phon_us', 'phon_uk', 'sound_us', 'sound_uk').all()
+            'name', 'word_type', 'id', 'phon_us', 'phon_uk', 'sound_us', 'sound_uk').all()[:10]
         vocabulary_list_serializers = VocabularyBaseSerializer(
             vocabulary_list, many=True).data
         return Response({
@@ -32,7 +34,7 @@ def get_search_vocabulary(request):
         })
 
     except Exception as e:
-
+        log_message(f"error: {e}")
         return Response({
             "status": False,
             "message": f"error: {e}"
@@ -40,10 +42,20 @@ def get_search_vocabulary(request):
 
 
 @api_view(['GET'])
-def get_detail_vocabulary(request,vocabulary_id):
+def get_detail_vocabulary(request, vocabulary_id):
     try:
-        vocabulary = Vocabulary
+        vocabulary = Vocabulary.objects.get(id=vocabulary_id)
+        vocabulary_serializer = VocabularySerializer(vocabulary).data
+
+        return Response({
+            "status": True,
+            "message": "Success",
+            "data": vocabulary_serializer
+        })
+
     except Exception as e:
+        log_message(f"error: {e}")
+
         return Response({
             "status": False,
             "message": f"error: {e}"
