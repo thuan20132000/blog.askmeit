@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # local
     'blog',
     'dictionary',
+    'flashcard',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
