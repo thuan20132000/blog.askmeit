@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "ckeditor",
     "ckeditor_uploader",
+    
 
     # local
     'blog',
@@ -102,7 +103,7 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'blog',
+        'NAME': 'blog_local',
         'USER': 'truongthuan',
         'PASSWORD': 'Thuan123',
         'HOST': '127.0.0.1',

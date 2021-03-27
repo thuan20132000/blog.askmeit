@@ -16,6 +16,9 @@ class Topic(models.Model):
     status = models.TextField(
         max_length=22, choices=STATUS_CHOICES, default='published')
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self,):
         return "Topic: %s" % self.name
 
@@ -42,6 +45,8 @@ class VocabularyCard(models.Model):
 
     status = models.TextField(
         max_length=22, choices=STATUS_CHOICES, default='published')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self,):
         return "VocabularyCard: %s " % self.name

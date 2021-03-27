@@ -9,8 +9,7 @@ from .models import Topic,VocabularyCard
 @admin.register(Topic)
 class AdminTopic(admin.ModelAdmin):
     prepopulated_fields = {"slug":("name",)}
-    pass
-
+    list_display = ('name','created_at')
 
 
 

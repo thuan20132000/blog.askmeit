@@ -330,7 +330,7 @@ def check_search(word,topic):
 
 
 
-def read_vocabulary_to_search(file):
+def read_vocabulary_to_search(file,topic_id):
     try:
         start = time.time()
         # Using readlines()
@@ -344,7 +344,7 @@ def read_vocabulary_to_search(file):
             message = f"Searching vocabulary <<{line.strip()}>>"
             helper.log_message(message)
 
-            check_search(line.strip(),2)
+            check_search(line.strip(),topic_id)
         end = time.time()
 
         message = f"Search {count} vocabulary in {end-start} "
@@ -358,4 +358,6 @@ def read_vocabulary_to_search(file):
 
 
 file = f"{file_path}/flashcard/vocabulary_data/search_vocabulary.txt"
-read_vocabulary_to_search(file)
+
+
+read_vocabulary_to_search(file,1)
