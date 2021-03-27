@@ -28,13 +28,17 @@ class VocabularyCard(models.Model):
 
     name = models.CharField(max_length=255)
     word_type = models.CharField(max_length=255, null=True)
-    phon = models.CharField(max_length=255, null=True)
-    sound = models.FileField(upload_to='upload/flashcard/audio/',blank=True)
+    phon_uk = models.CharField(max_length=255, null=True)
+    phon_us = models.CharField(max_length=255, null=True)
+    sound_uk = models.FileField(
+        upload_to='audio/', blank=True)
+    sound_us = models.FileField(
+        upload_to='audio/', blank=True)
     meaning = models.CharField(max_length=255, null=True)
     definition = models.TextField(null=True)
     example = models.TextField(null=True)
 
-    topics = models.ManyToManyField(Topic)
+    topics = models.ManyToManyField(Topic, null=True, blank=True)
 
     status = models.TextField(
         max_length=22, choices=STATUS_CHOICES, default='published')

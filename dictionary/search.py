@@ -72,7 +72,7 @@ def searchVocabulary(vocabulary, proxy):
         # print('sound_uk: ', sound_uk)
         # helper.downloadFileFromUrl(proxy, sound_uk, file_name)
         thread2 = myThread(
-            2, f"Thread-{file_name_uk}", helper.downloadFileFromUrl(proxy, sound_us, file_name_uk))
+            2, f"Thread-{file_name_uk}", helper.downloadFileFromUrl(proxy, sound_uk, file_name_uk))
 
         thread1.start()
         thread2.start()
@@ -85,8 +85,8 @@ def searchVocabulary(vocabulary, proxy):
         vocabulary.word_type = word_type
         vocabulary.phon_us = phon_us
         vocabulary.phon_uk = phon_uk
-        vocabulary.sound_us = file_name_uk
-        vocabulary.sound_uk = file_name_us
+        vocabulary.sound_us = file_name_us
+        vocabulary.sound_uk = file_name_uk
         vocabulary.definitions = definitions_examples
         vocabulary.certification_field = ''
         vocabulary.save()
@@ -161,8 +161,3 @@ def read_vocabulary_to_search(file):
         error = f"error: {e} at "+func.co_name + " - " + func.co_filename
         helper.log_message(error)
 
-
-# read_vocabulary_to_search(
-#     '/Users/truongthuan/Develop/python/blog/dictionary/vocabulary_data/test_vocabulary.txt')
-
-check_search('than')
