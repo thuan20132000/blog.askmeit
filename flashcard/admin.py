@@ -16,4 +16,5 @@ class AdminTopic(admin.ModelAdmin):
 
 @admin.register(VocabularyCard)
 class AdminVocabularyCard(admin.ModelAdmin):
-    pass
+    
+    list_filter = ('topics','status',)

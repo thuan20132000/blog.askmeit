@@ -17,6 +17,14 @@ import logging
 import inspect
 from django.core.mail import send_mail
 
+
+
+from flashcard.config import ConfigPath
+
+
+
+file_path = ConfigPath.PATH_WORK_DIR
+
 class myThread (threading.Thread):
     def __init__(self, threadID, name, func):
         threading.Thread.__init__(self)
@@ -298,7 +306,7 @@ def check_search(word,topic):
                 continue
 
             proxy = helper.choose_random(
-                "/Users/truongthuan/Develop/python/blog/dictionary/proxy_data.txt")
+                f"{file_path}/dictionary/proxy_data.txt")
 
             if proxy:
                 print(f"Searching {word} turn {count} with proxy: {proxy} ")
@@ -349,5 +357,5 @@ def read_vocabulary_to_search(file):
 
 
 
-file = "/Users/truongthuan/Develop/python/blog/flashcard/vocabulary_data/search_vocabulary.txt"
+file = f"{file_path}/flashcard/vocabulary_data/search_vocabulary.txt"
 read_vocabulary_to_search(file)
