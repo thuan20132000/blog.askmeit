@@ -15,7 +15,6 @@ class Topic(models.Model):
 
     status = models.TextField(
         max_length=22, choices=STATUS_CHOICES, default='published')
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -31,22 +30,18 @@ class VocabularyCard(models.Model):
 
     name = models.CharField(max_length=255)
     word_type = models.CharField(max_length=255, null=True)
-    phon_uk = models.CharField(max_length=255, null=True)
     phon_us = models.CharField(max_length=255, null=True)
-    sound_uk = models.FileField(
-        upload_to='audio/', blank=True)
+    phon_uk = models.CharField(max_length=255, null=True)
     sound_us = models.FileField(
-        upload_to='audio/', blank=True)
+        upload_to='upload/flashcard/audio/', blank=True)
+    sound_uk = models.FileField(
+        upload_to='upload/flashcard/audio/', blank=True)
     meaning = models.CharField(max_length=255, null=True)
     definition = models.TextField(null=True)
     example = models.TextField(null=True)
-
-    topics = models.ManyToManyField(Topic, null=True, blank=True)
-
+    topics = models.ManyToManyField(Topic)
     status = models.TextField(
         max_length=22, choices=STATUS_CHOICES, default='published')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self,):
         return "VocabularyCard: %s " % self.name
