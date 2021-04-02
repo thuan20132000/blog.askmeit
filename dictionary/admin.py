@@ -9,3 +9,9 @@ from .models import Vocabulary,Topic
 class AdminVocabulary(admin.ModelAdmin):
     search_fields  = ['name']
     list_filter = ('topic','status',)
+
+
+
+@admin.register(Topic)
+class AdminTopic(admin.ModelAdmin):
+    search_fields = ['name']

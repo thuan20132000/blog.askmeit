@@ -1,2 +1,3 @@
-cross
-influence
+particularly
+amount
+ability

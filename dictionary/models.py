@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+import uuid
 
 
 class Language(models.Model):
@@ -47,7 +48,7 @@ class Vocabulary(models.Model):
         ('toefl', 'TOEFL'),
         ('common','COMMON'),
     )
-
+    ID = models.UUIDField(default=uuid.uuid4,editable=False,primary_key=True)
     name = models.CharField(max_length=100,null=True)
     word_type = models.CharField(max_length=100,null=True)
     phon_us = models.CharField(max_length=100,null=True)

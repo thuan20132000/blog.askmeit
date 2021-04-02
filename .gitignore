@@ -150,8 +150,12 @@ templates/tech-blog
 media/upload
 vieclam24h/migrations
 dictionary/migrations
-audio/
+flashcard/migrations
+flashcard/media/audio
+audio
 # dictionary/schedule_cron.py
 # dictionary/dateInfo.txt
 /logs
 local_config.py
+flashcard_data
+.proxy_data

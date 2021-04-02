@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-
+import uuid
 
 class Topic(models.Model):
     STATUS_CHOICES = (
@@ -27,7 +27,7 @@ class VocabularyCard(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-
+    ID = models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
     name = models.CharField(max_length=255)
     word_type = models.CharField(max_length=255, null=True)
     phon_us = models.CharField(max_length=255, null=True)
@@ -42,6 +42,7 @@ class VocabularyCard(models.Model):
     topics = models.ManyToManyField(Topic)
     status = models.TextField(
         max_length=22, choices=STATUS_CHOICES, default='published')
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self,):
         return "VocabularyCard: %s " % self.name

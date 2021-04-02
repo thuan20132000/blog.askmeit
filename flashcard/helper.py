@@ -12,7 +12,7 @@ import local_config
 
 def save_proxies(ip_list, port_list, number):
     # proxy_list = list()
-    proxy_data = open(local_config.PATH_WORK_DIR+'/flashcard/proxy_data.txt', 'w')
+    proxy_data = open(local_config.PATH_WORK_DIR+'/proxy_data.txt', 'w')
     for x in range(number):
         proxy = f"{ip_list[x]}:{port_list[x]}"
         # proxy_list.append(proxy)
@@ -66,7 +66,7 @@ def downloadFileFromUrl(proxy, file_url, file_name):
                 # generate_proxy()
                 # print('Generate new proxy')
                 # count = 1
-                proxy = choose_random(local_config.PATH_WORK_DIR+"/flashcard/proxy_data.txt")
+                proxy = choose_random(local_config.PATH_WORK_DIR+"/proxy_data.txt")
                 count += 1
                 if count > 10:
                     generate_proxy()
