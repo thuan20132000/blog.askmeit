@@ -589,3 +589,4 @@ Original exception text was: 'QuerySet' object has no attribute 'name'. at 27 - 
  2021-03-27 15:49:38.083516 : saved file wave+noun+us.mp3 at 58 - downloadFileFromUrl - /Users/truongthuan/Develop/python/blog/flashcard/helper.py
  2021-03-27 15:49:40.026858 : saved file wave+noun+uk.mp3 at 58 - downloadFileFromUrl - /Users/truongthuan/Develop/python/blog/flashcard/helper.py
  2021-03-27 15:49:40.030508 : Saved <VocabularyCard: wave > successfully. at 226 - searchVocabulary - /Users/truongthuan/Develop/python/blog/flashcard/search.py
+ 2021-04-02 22:01:44.743468 : error: [Errno 2] No such file or directory: '/Users/truongthuan/Develop/python/blogflashcard/vocabulary_data/search_vocabulary.txt' at <module> - /Users/truongthuan/Develop/python/blog/flashcard/search.py at 333 - read_vocabulary_to_search - /Users/truongthuan/Develop/python/blog/flashcard/search.py

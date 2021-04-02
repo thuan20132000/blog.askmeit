@@ -21,7 +21,7 @@ from django.core.mail import send_mail
 
 from flashcard.config import ConfigPath
 
-
+import local_config
 
 file_path = ConfigPath.PATH_WORK_DIR
 
@@ -357,7 +357,7 @@ def read_vocabulary_to_search(file,topic_id):
 
 
 
-file = f"{file_path}/flashcard/vocabulary_data/search_vocabulary.txt"
+file = local_config.PATH_WORK_DIR+"flashcard/vocabulary_data/search_vocabulary.txt"
 
 
 read_vocabulary_to_search(file,1)

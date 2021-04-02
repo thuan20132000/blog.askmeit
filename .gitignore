@@ -153,3 +153,5 @@ dictionary/migrations
 audio/
 # dictionary/schedule_cron.py
 # dictionary/dateInfo.txt
+/logs
+local_config.py

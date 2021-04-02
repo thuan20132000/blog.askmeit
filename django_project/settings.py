@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+import local_config 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -103,11 +103,11 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'blog_local',
-        'USER': 'truongthuan',
-        'PASSWORD': 'Thuan123',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'NAME': local_config.DATABAE_NAME,
+        'USER': local_config.DATABASE_USER,
+        'PASSWORD': local_config.DATABASE_PASSWORD,
+        'HOST': local_config.DATABASE_HOST,
+        'PORT': local_config.DATABASE_PORT
     }
 }
 

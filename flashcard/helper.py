@@ -7,15 +7,12 @@ import datetime
 import os
 import inspect
 import logging
-from flashcard.config import ConfigPath
+import local_config
 
-
-file_path = ConfigPath.PATH_WORK_DIR
 
 def save_proxies(ip_list, port_list, number):
     # proxy_list = list()
-    proxy_data = open(
-        f'{file_path}/flashcard/proxy_data.txt', 'w')
+    proxy_data = open(local_config.PATH_WORK_DIR+'/flashcard/proxy_data.txt', 'w')
     for x in range(number):
         proxy = f"{ip_list[x]}:{port_list[x]}"
         # proxy_list.append(proxy)
@@ -69,8 +66,7 @@ def downloadFileFromUrl(proxy, file_url, file_name):
                 # generate_proxy()
                 # print('Generate new proxy')
                 # count = 1
-                proxy = choose_random(
-                    "/Users/truongthuan/Develop/python/blog/flashcard/proxy_data.txt")
+                proxy = choose_random(local_config.PATH_WORK_DIR+"/flashcard/proxy_data.txt")
                 count += 1
                 if count > 10:
                     generate_proxy()
@@ -85,8 +81,7 @@ def downloadFileFromUrl(proxy, file_url, file_name):
             response = requests.get(
                 file_url, headers=headers, timeout=17, proxies=proxy_data)
 
-            f = open(
-                f'{file_path}/media/audio/{file_name}', 'wb')
+            f = open(local_config.PATH_WORK_DIR+'/media/audio/'+file_name, 'wb')
             f.write(response.content)
             message = f"saved file {file_name}"
             log_message(message)
@@ -105,7 +100,7 @@ def downloadFileFromUrl(proxy, file_url, file_name):
 
 
 def log_message(message):
-    log = open(f"{file_path}/flashcard/logs/logs.txt", 'a')
+    log = open(local_config.PATH_WORK_DIR+"/flashcard/logs/logs.txt", 'a')
     # message_parse =
     func = inspect.currentframe().f_back.f_code
     co_name = func.co_name
