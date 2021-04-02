@@ -33,9 +33,9 @@ class VocabularyCard(models.Model):
     phon_us = models.CharField(max_length=255, null=True)
     phon_uk = models.CharField(max_length=255, null=True)
     sound_us = models.FileField(
-        upload_to='upload/flashcard/audio/', blank=True)
+        upload_to='audio/', blank=True)
     sound_uk = models.FileField(
-        upload_to='upload/flashcard/audio/', blank=True)
+        upload_to='audio/', blank=True)
     meaning = models.CharField(max_length=255, null=True)
     definition = models.TextField(null=True)
     example = models.TextField(null=True)
