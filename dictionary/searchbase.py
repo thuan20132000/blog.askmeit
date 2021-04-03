@@ -218,8 +218,8 @@ class SearchBase:
     def save_vocabulary(self, name, word_type, phon_us, phon_uk, sound_us, sound_uk, definitions_examples):
         if sound_us and sound_uk:
             # print('sound_us: ', sound_us)
-            file_name_us = f'{name}+{word_type}+us.mp3'
-            file_name_uk = f'{name}+{word_type}+uk.mp3'
+            file_name_us = f'{name}_{word_type}__us.mp3'
+            file_name_uk = f'{name}_{word_type}__uk.mp3'
             # # helper.downloadFileFromUrl(proxy, sound_us, file_name)
             # thread1 = myThread(
             #     1, f"Thread-{file_name_us}", helper.downloadFileFromUrl(None, sound_us, file_name_us))
@@ -244,13 +244,15 @@ class SearchBase:
             vocabulary.word_type = word_type
             vocabulary.phon_us = phon_us
             vocabulary.phon_uk = phon_uk
-            vocabulary.sound_us = file_name_uk
-            vocabulary.sound_uk = file_name_us
+            vocabulary.sound_us = 'audio/'+file_name_us
+            vocabulary.sound_uk = 'audio/'+file_name_uk
             vocabulary.definitions = definitions_examples
             vocabulary.certification_field = ''
             vocabulary.save()
 
-            print(f"Saved <{vocabulary}> successfully.")
+            message = f"Saved nearby <{vocabulary}> successfully."
+            print(message)
+            helper.log_message(message)
 
     def get_nearby_word_links(self,):
         # accordion ui-grad
