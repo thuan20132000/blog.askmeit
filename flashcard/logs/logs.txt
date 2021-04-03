@@ -876,3 +876,7 @@ DETAIL:  Key (topic_id)=(1) is not present in table "flashcard_topic".
  2021-04-02 22:55:44.724073 : Saved <VocabularyCard: growth > successfully. at 228 - searchVocabulary - /Users/truongthuan/Develop/python/blog/flashcard/search.py
  2021-04-02 22:56:01.504968 : saved file staff+noun+uk.mp3 at 55 - downloadFileFromUrl - /Users/truongthuan/Develop/python/blog/flashcard/helper.py
  2021-04-02 22:56:01.518534 : Saved <VocabularyCard: staff > successfully. at 228 - searchVocabulary - /Users/truongthuan/Develop/python/blog/flashcard/search.py
+ 2021-04-03 14:15:46.947718 : error: Got AttributeError when attempting to get a value for field `name` on serializer `VocabularyCardSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `QuerySet` instance.
+Original exception text was: 'QuerySet' object has no attribute 'name'. at 27 - get_topic_list - /Users/truongthuan/Develop/python/blog/flashcard/api.py
+ 2021-04-03 14:17:49.284642 : error: 'TopicSerializer' object has no attribute 'get_topic_vocabulary_number' at 27 - get_topic_list - /Users/truongthuan/Develop/python/blog/flashcard/api.py
