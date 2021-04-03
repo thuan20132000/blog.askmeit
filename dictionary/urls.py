@@ -7,6 +7,6 @@ from dictionary.api import (
 
 urlpatterns = [
     path('api/v1/search',get_search_vocabulary,name="search_vocabulary"),
-    path('api/v1/vocabulary/<int:vocabulary_id>',get_detail_vocabulary,name="detail_vocabulary"),
+    path('api/v1/vocabulary/<uuid:vocabulary_id>',get_detail_vocabulary,name="detail_vocabulary"),
 
 ]
