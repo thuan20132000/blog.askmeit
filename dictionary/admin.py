@@ -9,6 +9,7 @@ from .models import Vocabulary,Topic
 class AdminVocabulary(admin.ModelAdmin):
     search_fields  = ['name']
     list_filter = ('topic','status',)
+    list_display = ['name','created_at','topic']
 
 
 
