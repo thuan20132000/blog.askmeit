@@ -218,8 +218,8 @@ class SearchBase:
     def save_vocabulary(self, name, word_type, phon_us, phon_uk, sound_us, sound_uk, definitions_examples):
         if sound_us and sound_uk:
             # print('sound_us: ', sound_us)
-            file_name_us = f'{name}+{word_type}+us.mp3'
-            file_name_uk = f'{name}+{word_type}+uk.mp3'
+            file_name_us = f'{name}_{word_type}__us.mp3'
+            file_name_uk = f'{name}_{word_type}__uk.mp3'
             # # helper.downloadFileFromUrl(proxy, sound_us, file_name)
             # thread1 = myThread(
             #     1, f"Thread-{file_name_us}", helper.downloadFileFromUrl(None, sound_us, file_name_us))
