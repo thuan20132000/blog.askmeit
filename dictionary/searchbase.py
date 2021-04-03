@@ -16,6 +16,7 @@ from random import choice
 import threading
 from dictionary import helper
 import os
+import concurrent
 
 class myThread (threading.Thread):
     def __init__(self, threadID, name, func):
@@ -219,20 +220,24 @@ class SearchBase:
             # print('sound_us: ', sound_us)
             file_name_us = f'{name}+{word_type}+us.mp3'
             file_name_uk = f'{name}+{word_type}+uk.mp3'
-            # helper.downloadFileFromUrl(proxy, sound_us, file_name)
-            thread1 = myThread(
-                1, f"Thread-{file_name_us}", helper.downloadFileFromUrl(None, sound_us, file_name_us))
+            # # helper.downloadFileFromUrl(proxy, sound_us, file_name)
+            # thread1 = myThread(
+            #     1, f"Thread-{file_name_us}", helper.downloadFileFromUrl(None, sound_us, file_name_us))
 
-            # print('sound_uk: ', sound_uk)
-            # helper.downloadFileFromUrl(proxy, sound_uk, file_name)
-            thread2 = myThread(
-                2, f"Thread-{file_name_uk}", helper.downloadFileFromUrl(None, sound_us, file_name_uk))
+            # # print('sound_uk: ', sound_uk)
+            # # helper.downloadFileFromUrl(proxy, sound_uk, file_name)
+            # thread2 = myThread(
+            #     2, f"Thread-{file_name_uk}", helper.downloadFileFromUrl(None, sound_us, file_name_uk))
 
-            thread1.start()
-            thread2.start()
-            thread1.join()
-            thread2.join()
-            print("Exiting Main Thread")
+            # thread1.start()
+            # thread2.start()
+            # thread1.join()
+            # thread2.join()
+            # print("Exiting Main Thread")
+
+            with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+                executor.submit(helper.downloadFileFromUrl,None,sound_us,file_name_us)
+                executor.submit(helper.downloadFileFromUrl,None,sound_uk,file_name_uk)
 
             vocabulary = Vocabulary()
             vocabulary.name = name
