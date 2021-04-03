@@ -244,13 +244,15 @@ class SearchBase:
             vocabulary.word_type = word_type
             vocabulary.phon_us = phon_us
             vocabulary.phon_uk = phon_uk
-            vocabulary.sound_us = file_name_uk
-            vocabulary.sound_uk = file_name_us
+            vocabulary.sound_us = 'audio/'+file_name_us
+            vocabulary.sound_uk = 'audio/'+file_name_uk
             vocabulary.definitions = definitions_examples
             vocabulary.certification_field = ''
             vocabulary.save()
 
-            print(f"Saved <{vocabulary}> successfully.")
+            message = f"Saved nearby <{vocabulary}> successfully."
+            print(message)
+            helper.log_message(message)
 
     def get_nearby_word_links(self,):
         # accordion ui-grad
