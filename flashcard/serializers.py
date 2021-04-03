@@ -4,14 +4,24 @@ from flashcard.models import VocabularyCard, Topic
 
 class TopicSerializer(serializers.ModelSerializer):
 
+
+    vocabulary_total = serializers.SerializerMethodField('get_topic_vocabulary_number')
+    
     class Meta:
         model = Topic
         fields = '__all__'
+        depth = 2
 
-
+    def get_topic_vocabulary_number(self,obj):
+        total = VocabularyCard.objects.filter(topics=obj).count()
+        # return VocabularyCardSerializer(vocabulary_list,many=True).data
+        return total
 class VocabularyCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VocabularyCard
-        depth = 1
+        depth = 2
         fields = '__all__'
+
+
+    
