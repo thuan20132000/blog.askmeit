@@ -23,8 +23,7 @@ def get_search_vocabulary(request):
         # ).filter(search=search_query)
         # print('data: ',vocabulary)
 
-        vocabulary_list = Vocabulary.objects.filter(name__startswith=query).values(
-            'name', 'word_type', 'ID', 'phon_us', 'phon_uk', 'sound_us', 'sound_uk').all()[:10]
+        vocabulary_list = Vocabulary.objects.filter(name__startswith=query).all()[:10]
         vocabulary_list_serializers = VocabularyBaseSerializer(
             vocabulary_list, many=True).data
         return Response({
