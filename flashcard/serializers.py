@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from flashcard.models import VocabularyCard, Topic
+from flashcard.models import VocabularyCard, Topic,Field
 
 
 class TopicSerializer(serializers.ModelSerializer):
@@ -25,3 +25,9 @@ class VocabularyCardSerializer(serializers.ModelSerializer):
 
 
     
+class FieldSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Field
+        depth = 1
+        fields = '__all__'
