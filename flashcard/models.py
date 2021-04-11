@@ -3,6 +3,28 @@ from django.db import models
 # Create your models here.
 import uuid
 
+
+
+class Field(models.Model):
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
+
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, null=True)
+    image = models.ImageField(upload_to='upload/flashcard/', blank=True)
+
+    status = models.TextField(
+        max_length=22, choices=STATUS_CHOICES, default='published')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self,):
+        return "Topic: %s" % self.name
+
+
+
 class Topic(models.Model):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
@@ -17,6 +39,14 @@ class Topic(models.Model):
         max_length=22, choices=STATUS_CHOICES, default='published')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    field = models.ForeignKey(
+        Field,
+        related_name="topic_field",
+        null=True,
+        default=None,
+        on_delete=models.SET_NULL
+    )
 
     def __str__(self,):
         return "Topic: %s" % self.name
