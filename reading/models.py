@@ -42,6 +42,9 @@ class ReadingPost(models.Model):
         null=True,
         related_name="reading_topic"
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     status = models.TextField(
         max_length=22, choices=STATUS_CHOICES, default='published')

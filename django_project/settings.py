@@ -49,12 +49,14 @@ INSTALLED_APPS = [
     "rest_framework",
     "ckeditor",
     "ckeditor_uploader",
+    "django_json_widget",
     
 
     # local
     'blog',
     'dictionary',
     'flashcard',
+    'reading',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -264,3 +266,11 @@ EMAIL_HOST_PASSWORD = 'hleibsyqfkymlqmu' #past the key or password app here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
+
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}
