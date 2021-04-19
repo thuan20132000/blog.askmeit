@@ -352,7 +352,7 @@ def read_vocabulary_to_search(file,topic_id):
 
 
 
-file = local_config.PATH_WORK_DIR+"/flashcard_data/education.txt"
+file = local_config.PATH_WORK_DIR+"/flashcard_data/sport.txt"
 
 
-read_vocabulary_to_search(file,2)
+read_vocabulary_to_search(file,3)

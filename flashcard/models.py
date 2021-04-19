@@ -4,7 +4,6 @@ from django.db import models
 import uuid
 
 
-
 class Field(models.Model):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
@@ -22,7 +21,6 @@ class Field(models.Model):
 
     def __str__(self,):
         return "Field: %s" % self.name
-
 
 
 class Topic(models.Model):
@@ -57,26 +55,26 @@ class VocabularyCard(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-    ID = models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
+    ID = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=255)
-    word_type = models.CharField(max_length=255, null=True,blank=True)
-    phon_us = models.CharField(max_length=255, null=True,blank=True)
-    phon_uk = models.CharField(max_length=255, null=True,blank=True)
+    word_type = models.CharField(max_length=255, null=True, blank=True)
+    phon_us = models.CharField(max_length=255, null=True, blank=True)
+    phon_uk = models.CharField(max_length=255, null=True, blank=True)
     sound_us = models.FileField(
         upload_to='audio/', blank=True)
     sound_uk = models.FileField(
         upload_to='audio/', blank=True)
-    meaning = models.CharField(max_length=255, null=True,blank=True)
-    definition = models.TextField(null=True,blank=True)
-    example = models.TextField(null=True,blank=True)
+    meaning = models.CharField(max_length=255, null=True, blank=True)
+    definition = models.TextField(null=True, blank=True)
+    example = models.TextField(null=True, blank=True)
     topics = models.ManyToManyField(Topic)
     status = models.TextField(
         max_length=22, choices=STATUS_CHOICES, default='published')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self,):
         return "VocabularyCard: %s " % self.name
-
 
     def get_topics(self,):
         return ", ".join([topic.name for topic in self.topics.all()])

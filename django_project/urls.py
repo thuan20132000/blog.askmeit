@@ -38,6 +38,8 @@ urlpatterns = [
 
     path('dictionary/',include('dictionary.urls')),
     path('flashcard/',include('flashcard.urls')),
+    path('reading/',include('reading.urls')),
+
 
 
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
