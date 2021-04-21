@@ -63,12 +63,12 @@ class ReadingPostDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReadingPost
         depth = 1
-        fields = ['title','slug','content','reading_topic','created_at','reading_post_vocabulary']
+        fields = ['title','slug','reading_audio','content','reading_topic','created_at','reading_post_vocabulary']
 
     
     def get_reading_post_vocabulary(self,obj):
-        post_vocabulary_list = obj.reading_post.values('name','pk').all()
+        post_vocabulary_list = obj.reading_post.all()
 
-        return post_vocabulary_list
+        return ReadingPostVocabularySerializer(post_vocabulary_list,many=True).data
 
         # return ReadingPostVocabularyNameSerializer(post_vocabulary_list,many=True).data 
