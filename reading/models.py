@@ -36,6 +36,8 @@ class ReadingPost(models.Model):
     content = models.TextField(blank=True,null=True)
     summary = models.TextField(blank=True,null=True)
     practice_number = models.IntegerField(default=0)
+
+    reading_audio = models.FileField(upload_to='readingpost/audio',blank=True,null=True)
     
     reading_topic = models.ForeignKey(
         ReadingTopic,
