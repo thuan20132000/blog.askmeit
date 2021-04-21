@@ -18,12 +18,12 @@ def get_search_vocabulary(request):
         search_vector = SearchVector("name")
         search_query = SearchQuery(query)
 
-        # vocabulary = Vocabulary.objects.annotate(
-        #     search=search_vector
-        # ).filter(search=search_query)
+        vocabulary_list = Vocabulary.objects.annotate(
+            search=search_vector
+        ).filter(search=search_query).all()[:20]
         # print('data: ',vocabulary)
 
-        vocabulary_list = Vocabulary.objects.filter(name__startswith=query).all()[:10]
+        # vocabulary_list = Vocabulary.objects.filter(name__startswith=query).all()[:10]
         vocabulary_list_serializers = VocabularyBaseSerializer(
             vocabulary_list, many=True).data
         return Response({
