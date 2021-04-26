@@ -21,6 +21,7 @@ class AdminReadingTopic(admin.ModelAdmin):
 
 class ReadingPostVocabularyTabularInline(admin.TabularInline):
     model = ReadingPostVocabulary
+    fields = ['name','meaning','definition','example']
 
 @admin.register(ReadingPost)
 class AdminReadingPost(admin.ModelAdmin):
@@ -31,6 +32,7 @@ class AdminReadingPost(admin.ModelAdmin):
     list_editable = ['content',]
 
     inlines = [ReadingPostVocabularyTabularInline]
+    
     
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
